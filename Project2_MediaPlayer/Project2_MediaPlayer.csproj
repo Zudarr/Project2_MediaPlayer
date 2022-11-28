@@ -7,4 +7,34 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Assets\**" />
+    <EmbeddedResource Remove="Assets\**" />
+    <None Remove="Assets\**" />
+    <Page Remove="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Icon\next.png" />
+    <None Remove="Icon\pause.png" />
+    <None Remove="Icon\play.png" />
+    <None Remove="Icon\previous.png" />
+    <None Remove="Icon\search.png" />
+    <None Remove="Icon\shuffle.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icon\next.png" />
+    <Resource Include="Icon\pause.png" />
+    <Resource Include="Icon\play.png" />
+    <Resource Include="Icon\previous.png" />
+    <Resource Include="Icon\search.png" />
+    <Resource Include="Icon\shuffle.png" />
+  </ItemGroup>
+
 </Project>

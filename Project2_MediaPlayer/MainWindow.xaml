@@ -5,8 +5,96 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project2_MediaPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Media player" Height="450" Width="800" MinHeight="450" MinWidth="800" SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen">
+    <Grid MouseWheel="Grid_MouseWheel">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
+        <ListView Name="PlayListView">
+            <ListView.Resources>
+                <ContextMenu x:Key="PlayListViewContextMenu">
+                    <MenuItem Name="deleteFile" Header="Delete" Click="deleteFile_Click"/>
+                </ContextMenu>
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="ContextMenu" Value="{StaticResource PlayListViewContextMenu}"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding FileName}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <MediaElement Name="MediaPlayer" Grid.Column="1" LoadedBehavior="Manual" Stretch="None"
+                      MediaEnded="MediaPlayer_MediaEnded" MediaOpened="MediaPlayer_MediaOpened"/>
+        
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="2" Height="70">
+            <DockPanel DockPanel.Dock="Top">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <TextBlock Text="Volume" FontSize="15" FontWeight="Bold" Margin="0 0 7 0"/>
+                    <ProgressBar Name="pbVolume" Width="50" Height="12" Maximum="1" Margin="0 0 7 0"
+                             Value="{Binding ElementName=MediaPlayer, Path=Volume}" Foreground="Green"/>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Name="LabelCurrentTime" Margin="0 0 7 0">00:00:00</TextBlock>
+                    <Slider Name="sliProgress" Width="400" Thumb.DragStarted="sliProgress_DragStarted" Margin="0 0 7 0"
+                            Thumb.DragCompleted="sliProgress_DragCompleted" ValueChanged="sliProgress_ValueChanged"/>
+                    <TextBlock Name="LabelMaximumTime">00:00:00</TextBlock>
+                </StackPanel>
+            </DockPanel>
+            <Button Name="BrowseButton" Click="BrowseButton_Click" Margin="7 0 0 0"
+                    Background="White" BorderBrush="black">
+                <StackPanel Orientation="Horizontal">
+                    <Image Name="BrowseButtonIcon" Source="Icon/search.png" Margin="0 0 7 0" />
+                    <TextBlock Name="BrowseButtonContent" Text="Browse..." Foreground="Black" FontSize="15" FontWeight="Bold"/>
+                </StackPanel>
+            </Button>
+            <Button Name="PlayShuffleButton" Click="PlayShuffleButton_Click" DockPanel.Dock="Right" Margin="0 0 7 0"
+                    Background="White" BorderBrush="black">
+                <StackPanel Orientation="Horizontal">
+                    <Image Name="PlayShuffleButtonIcon" Source="Icon/shuffle.png" Margin="0 0 7 0" />
+                    <TextBlock Name="PlayShuffleButtonContent" Text="Play shuffle" Foreground="Black" FontSize="15" FontWeight="Bold"/>
+                </StackPanel>
+            </Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Name="PreviousButton" Click="PreviousButton_Click" Margin="0 0 10 0"
+                        Background="White" BorderBrush="black">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Name="PreviousButtonIcon" Source="Icon/previous.png"/>
+                        <TextBlock Name="PreviousButtonContent"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="PlayPauseButton" Click="PlayPauseButton_Click" Margin="0 0 10 0"
+                        Background="White" BorderBrush="black">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Name="PlayPauseButtonIcon" Source="Icon/pause.png"/>
+                        <TextBlock Name="PlayPauseButtonContent"/>
+                    </StackPanel>
+                </Button>
+                <Button Name="NextButton" Click="NextButton_Click"
+                        Background="White" BorderBrush="black">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Name="NextButtonIcon" Source="Icon/next.png"/>
+                        <TextBlock Name="NextButtonContent"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>
