@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Project2_MediaPlayer
+﻿namespace Project2_MediaPlayer
 {
+    // class chứa tên file để hiển thị ra UI, không có mục đích nào khác
     public class MediaFile
     {
         public string FileName { get; set; }

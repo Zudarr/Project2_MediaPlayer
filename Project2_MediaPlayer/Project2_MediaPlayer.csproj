@@ -19,6 +19,7 @@
     <None Remove="Icon\pause.png" />
     <None Remove="Icon\play.png" />
     <None Remove="Icon\previous.png" />
+    <None Remove="Icon\repeat.png" />
     <None Remove="Icon\search.png" />
     <None Remove="Icon\shuffle.png" />
   </ItemGroup>
@@ -33,6 +34,7 @@
     <Resource Include="Icon\pause.png" />
     <Resource Include="Icon\play.png" />
     <Resource Include="Icon\previous.png" />
+    <Resource Include="Icon\repeat.png" />
     <Resource Include="Icon\search.png" />
     <Resource Include="Icon\shuffle.png" />
   </ItemGroup>
