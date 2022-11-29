@@ -39,4 +39,10 @@
     <Resource Include="Icon\shuffle.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="LatestPlaylist.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

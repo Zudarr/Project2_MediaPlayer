@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:Project2_MediaPlayer"
         mc:Ignorable="d"
         Title="Media player" Height="450" Width="800" MinHeight="450" MinWidth="800" SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Closed="Window_Closed"  Loaded="Window_Loaded">
+    <Window.Resources>
+        <Image x:Key="Play" Source="Icon/play.png"/>
+        <Image x:Key="Pause" Source="Icon/pause.png"/>
+    </Window.Resources>
     <Grid MouseWheel="Grid_MouseWheel">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -76,24 +80,15 @@
             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Name="PreviousButton" Click="PreviousButton_Click" Margin="0 0 10 0"
                         Background="White" BorderBrush="black">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Name="PreviousButtonIcon" Source="Icon/previous.png"/>
-                        <TextBlock Name="PreviousButtonContent"/>
-                    </StackPanel>
+                    <Image Name="PreviousButtonIcon" Source="Icon/previous.png"/>
                 </Button>
                 <Button Name="PlayPauseButton" Click="PlayPauseButton_Click" Margin="0 0 10 0"
                         Background="White" BorderBrush="black">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Name="PlayPauseButtonIcon" Source="Icon/pause.png"/>
-                        <TextBlock Name="PlayPauseButtonContent"/>
-                    </StackPanel>
+                    <DynamicResource ResourceKey="Pause"/>
                 </Button>
                 <Button Name="NextButton" Click="NextButton_Click"
                         Background="White" BorderBrush="black">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Name="NextButtonIcon" Source="Icon/next.png"/>
-                        <TextBlock Name="NextButtonContent"/>
-                    </StackPanel>
+                    <Image Name="NextButtonIcon" Source="Icon/next.png"/>
                 </Button>
             </StackPanel>
 

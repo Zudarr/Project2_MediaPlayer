@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,12 +29,32 @@ namespace Project2_MediaPlayer
         public MainWindow()
         {
             InitializeComponent();
-            PlayListView.ItemsSource = MediaList;
 
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            PathList = File.ReadAllLines("LatestPlaylist.txt").ToList();
+
+            foreach (var path in PathList)
+            {
+                var newFile = new MediaFile()
+                {
+                    FileName = Path.GetFileName(path),
+                };
+                MediaList.Add(newFile);
+            }
+
+            PlayListView.ItemsSource = MediaList;
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            File.WriteAllLines("LatestPlaylist.txt", PathList);
         }
 
         private string NextMedia() //hàm quyết định file tiếp theo được phát là file nào 
@@ -111,15 +132,17 @@ namespace Project2_MediaPlayer
 
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
         {
-            if(MediaIsPlaying)
+            if (MediaIsPlaying)
             {
                 MediaIsPlaying = false;
                 MediaPlayer.Pause();
+                PlayPauseButton.Content = FindResource("Play");
             }
             else
             {
                 MediaIsPlaying = true;
                 MediaPlayer.Play();
+                PlayPauseButton.Content = FindResource("Pause");
             }
         }
 
@@ -241,7 +264,7 @@ namespace Project2_MediaPlayer
             foreach(var file in filePath)
             {
                 PlayingMediaPath = file;
-                MediaPlayer.Source = new Uri(PlayingMediaPath); // sau dòng này gọi hàm MediaPlayer_MediaOpened
+                MediaPlayer.Source = new Uri(PlayingMediaPath);
 
                 MediaIsPlaying = true;
                 MediaPlayer.Play();
