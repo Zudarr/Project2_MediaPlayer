@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Icon\menu.png" />
     <None Remove="Icon\next.png" />
     <None Remove="Icon\pause.png" />
     <None Remove="Icon\play.png" />

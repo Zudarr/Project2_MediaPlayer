@@ -14,41 +14,50 @@
     <Grid MouseWheel="Grid_MouseWheel">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <ListView Name="PlayListView">
-            <ListView.Resources>
-                <ContextMenu x:Key="PlayListViewContextMenu">
-                    <MenuItem Name="deleteFile" Header="Delete" Click="deleteFile_Click"/>
-                </ContextMenu>
-            </ListView.Resources>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="ContextMenu" Value="{StaticResource PlayListViewContextMenu}"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Name="PlayListItem" Text="{Binding FileName}"
-                               PreviewMouseLeftButtonDown="PlayListItem_PreviewMouseLeftButtonDown"/>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        
-        <MediaElement Name="MediaPlayer" Grid.Column="1" LoadedBehavior="Manual" Stretch="None"
-                      MediaEnded="MediaPlayer_MediaEnded" MediaOpened="MediaPlayer_MediaOpened"/>
+        <Expander>
+            <ListView Name="PlayListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView.Resources>
+                    <ContextMenu x:Key="PlayListViewContextMenu">
+                        <MenuItem Name="deleteFile" Header="Delete" Click="deleteFile_Click"/>
+                    </ContextMenu>
+                </ListView.Resources>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="ContextMenu" Value="{StaticResource PlayListViewContextMenu}"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Name="PlayListItem" Text="{Binding FileName}" Margin="0 5 0 5"
+                                   PreviewMouseLeftButtonDown="PlayListItem_PreviewMouseLeftButtonDown"
+                                   FontWeight="Bold"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Expander>
 
-        <Grid Grid.Row="1" Grid.ColumnSpan="2" Height="70">
+        <DockPanel Grid.Column="1">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="0 5 0 5">
+                <TextBlock Text="Current playing: " FontWeight="Bold"/>
+                <TextBlock Name="PlayingFileNameTextBlock" FontWeight="Bold"/>
+            </StackPanel>
+            <MediaElement Name="MediaPlayer"  LoadedBehavior="Manual" Stretch="None"
+                          MediaEnded="MediaPlayer_MediaEnded" MediaOpened="MediaPlayer_MediaOpened"/>
+        </DockPanel>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="140"/>
                 <ColumnDefinition Width="*"/>
