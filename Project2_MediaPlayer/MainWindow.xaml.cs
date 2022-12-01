@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using Path = System.IO.Path;
 
@@ -41,18 +39,7 @@ namespace Project2_MediaPlayer
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             PathList = File.ReadAllLines("LatestPlaylist.txt").ToList();
-
-            if(PathList.Count > 0)
-            {
-                PlayingMediaPath = PathList[0];
-                MediaPlayer.Source = new Uri(PlayingMediaPath);
-
-                var extension = Path.GetExtension(PlayingMediaPath);
-                PlayingFileNameTextBlock.Text = Path.GetFileName(PlayingMediaPath).Replace(extension, "");
-
-                MediaIsPlaying = true;
-                MediaPlayer.Play();
-            }
+            var LastPlayedFileCondition = File.ReadAllLines("LastPlayedFileCondition.txt").ToList();        
 
             foreach (var path in PathList)
             {
@@ -66,11 +53,32 @@ namespace Project2_MediaPlayer
             }
 
             PlayListView.ItemsSource = MediaList;
+
+            if (LastPlayedFileCondition.Count > 0 && LastPlayedFileCondition[0] != "")
+            {
+                PlayingMediaPath = LastPlayedFileCondition[0];
+                MediaPlayer.Position = TimeSpan.FromSeconds(Double.Parse(LastPlayedFileCondition[1]));
+
+                MediaPlayer.Source = new Uri(PlayingMediaPath);
+
+                var extension = Path.GetExtension(PlayingMediaPath);
+                PlayingFileNameTextBlock.Text = Path.GetFileName(PlayingMediaPath).Replace(extension, "");
+
+                MediaIsPlaying = true;
+                MediaPlayer.Play();
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             File.WriteAllLines("LatestPlaylist.txt", PathList);
+
+            List<string> PLayingFileCondition = new List<string>
+            {
+                PlayingMediaPath,
+                MediaPlayer.Position.TotalSeconds.ToString(),
+            };
+            File.WriteAllLines("LastPlayedFileCondition.txt", PLayingFileCondition);
         }
 
         private string NextMedia() //hàm quyết định file tiếp theo được phát là file nào 
@@ -86,6 +94,10 @@ namespace Project2_MediaPlayer
             {
                 Random rnd = new Random();
                 int NextMediaIndex = rnd.Next(PathList.Count - 1);
+                while (NextMediaIndex == index)
+                {
+                    NextMediaIndex = rnd.Next(PathList.Count - 1);
+                }
                 return PathList[NextMediaIndex];
             }
 
@@ -270,6 +282,9 @@ namespace Project2_MediaPlayer
             if (PlayingMediaPath == PathList[index]) //xử lý khi xóa file đang chạy
             {
                 PlayingMediaPath = NextMedia();
+
+                var extension = Path.GetExtension(PlayingMediaPath);
+                PlayingFileNameTextBlock.Text = Path.GetFileName(PlayingMediaPath).Replace(extension, "");
 
                 MediaPlayer.Source = new Uri(PlayingMediaPath);
                 MediaIsPlaying = true;
