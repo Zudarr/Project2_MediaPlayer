@@ -21,7 +21,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Expander>
+        <Expander Name="PlayListExpander" Background="White" MaxWidth="200">
             <ListView Name="PlayListView" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                 <ListView.Resources>
                     <ContextMenu x:Key="PlayListViewContextMenu">
@@ -42,7 +42,7 @@
                     <DataTemplate>
                         <TextBlock Name="PlayListItem" Text="{Binding FileName}" Margin="0 5 0 5"
                                    PreviewMouseLeftButtonDown="PlayListItem_PreviewMouseLeftButtonDown"
-                                   FontWeight="Bold"/>
+                                   FontWeight="Bold" Width="{Binding ElementName=PlayListExpander, Path=ActualWidth}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
